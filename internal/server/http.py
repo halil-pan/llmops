@@ -1,10 +1,26 @@
+import os
+
 from flask import Flask
-from internal.router import Router
 from config import Config
+from internal.router import Router
+from internal.exception import CustomException
+from pkg.response import Response, json, HttpCode, fail_message
+
 
 class Http(Flask):
     def __init__(self, *args, conf: Config, router: Router, **kwargs):
         super().__init__(*args, **kwargs)
+        self.config.from_object(conf)
+        self.register_error_handler(Exception, self._register_error_handler)
         router.register_router(self)
 
-        self.config.from_object(conf)
+    def _register_error_handler(self, error: Exception):
+        if isinstance(error, CustomException):
+            return json(Response(
+                code=error.code,
+                message=error.message,
+                data=error.data if error.data is not None else {},
+            ))
+        if self.debug or os.getenv("FLASK_ENV") == "development":
+            raise error
+        return fail_message(str(error))
