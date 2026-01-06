@@ -1,17 +1,25 @@
 import os
 
 from flask import request
+from injector import inject
 from openai import OpenAI
+from dataclasses import dataclass
 
 from internal.exception import FailException
 from internal.schema import CompletionReq
-from pkg.response import success_json, validate_error_json
+from internal.service import AppService
+from pkg.response import success_json, validate_error_json, success_message
 
 
+@inject
+@dataclass
 class AppHandler:
-    def ping(self):
-        raise FailException("数据未找到")
-        # return {"ping": "pong"}
+    app_service: AppService
+
+    def create_app(self):
+        app = self.app_service.create_app()
+        return success_message(f"应用已经成功创建，id 为 {app.id}")
+
 
     def completion(self):
         """ ai chat """
@@ -41,3 +49,7 @@ class AppHandler:
         content = completion.choices[0].message.content
 
         return success_json({"content": content})
+
+    def ping(self):
+        raise FailException("数据未找到")
+        # return {"ping": "pong"}
