@@ -1,0 +1,78 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: llmops-api-test
+meta:
+  id: wrk_8164195708b7440da01d4ef3478c0bf6
+  created: 1767664925498
+  modified: 1767665354667
+  description: ""
+collection:
+  - url: "{{BASE_URL}}/ping"
+    name: ping
+    meta:
+      id: req_daf19b60ae62472697ac20d2d0c6cb13
+      created: 1767664925545
+      modified: 1767665008410
+      isPrivate: false
+      description: ""
+      sortKey: -1767664925546
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{BASE_URL}}/app/completion"
+    name: completion
+    meta:
+      id: req_48ae9198704c445d8b58557a7391f607
+      created: 1767665175951
+      modified: 1767665228246
+      isPrivate: false
+      description: ""
+      sortKey: -1767665175951
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+            "query": "你好，你是谁"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_55d452ad0736e6f7dae428385a1f5b5fe8d79ad7
+    created: 1767664925541
+    modified: 1767664925541
+environments:
+  name: Base Environment
+  meta:
+    id: env_55d452ad0736e6f7dae428385a1f5b5fe8d79ad7
+    created: 1767664925539
+    modified: 1767664964199
+    isPrivate: false
+  data:
+    BASE_URL: http://127.0.0.1:5000
