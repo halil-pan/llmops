@@ -6,7 +6,7 @@ from internal.model import App
 from internal.router import Router
 from internal.exception import CustomException
 from pkg.response import Response, json, fail_message
-from flask_sqlalchemy import SQLAlchemy
+from pkg.sqlalchemy import SQLAlchemy
 
 
 class Http(Flask):
