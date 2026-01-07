@@ -26,3 +26,19 @@ docker run -d \
   -p 5432:5432 \
   postgres:16
 ```
+
+```shell
+# 初始化迁移环境
+flask --app app.http.app db init
+
+# 生成迁移脚本
+flask --app app.http.app db migrate
+
+# 更新数据库
+flask --app app.http.app db upgrade
+
+# 回滚数据库
+flask --app app.http.app db downgrade
+flask --app app.http.app db downgrade base
+flask --app app.http.app db downgrade <version>
+```

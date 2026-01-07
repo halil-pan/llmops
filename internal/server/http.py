@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+from flask_migrate import Migrate
+
 from config import Config
 from internal.model import App
 from internal.router import Router
@@ -10,14 +12,15 @@ from pkg.sqlalchemy import SQLAlchemy
 
 
 class Http(Flask):
-    def __init__(self, *args, conf: Config, db: SQLAlchemy, router: Router, **kwargs):
+    def __init__(self, *args, conf: Config, db: SQLAlchemy, migrate: Migrate, router: Router, **kwargs):
         super().__init__(*args, **kwargs)
         self.config.from_object(conf)
         self.register_error_handler(Exception, self._register_error_handler)
         db.init_app(self)
-        with self.app_context():
-            _ = App()
-            db.create_all()
+        migrate.init_app(self, db, "internal/migration")
+        # with self.app_context():
+        #     _ = App()
+        #     db.create_all()
         router.register_router(self)
 
     def _register_error_handler(self, error: Exception):
