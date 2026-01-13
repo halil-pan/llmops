@@ -12,6 +12,7 @@ class AppService:
     def create_app(self) -> App:
         with self.db.auto_commit():
             app = App(
+                id=uuid.uuid4(),
                 name="bot",
                 account_id=uuid.uuid4(),
                 icon="",
