@@ -37,7 +37,7 @@ collection:
       created: 1767665175951
       modified: 1767665228246
       isPrivate: false
-      description: ""
+      description: "AI聊天完成接口"
       sortKey: -1767665175951
     method: POST
     body:
@@ -46,6 +46,104 @@ collection:
         {
             "query": "你好，你是谁"
         }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{BASE_URL}}/app"
+    name: create_app
+    meta:
+      id: req_create_app
+      created: 1767666000000
+      modified: 1767666000000
+      isPrivate: false
+      description: "创建新应用"
+      sortKey: -1767666000000
+    method: POST
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{BASE_URL}}/app/{{APP_ID}}"
+    name: get_app
+    meta:
+      id: req_get_app
+      created: 1767666100000
+      modified: 1767666100000
+      isPrivate: false
+      description: "获取应用详情"
+      sortKey: -1767666100000
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{BASE_URL}}/app/{{APP_ID}}"
+    name: update_app
+    meta:
+      id: req_update_app
+      created: 1767666200000
+      modified: 1767666200000
+      isPrivate: false
+      description: "更新应用信息"
+      sortKey: -1767666200000
+    method: POST
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/12.2.0
+        description: ""
+        disabled: false
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{BASE_URL}}/app/{{APP_ID}}/delete"
+    name: delete_app
+    meta:
+      id: req_delete_app
+      created: 1767666300000
+      modified: 1767666300000
+      isPrivate: false
+      description: "删除应用"
+      sortKey: -1767666300000
+    method: POST
     headers:
       - name: Content-Type
         value: application/json
@@ -76,3 +174,4 @@ environments:
     isPrivate: false
   data:
     BASE_URL: http://127.0.0.1:5000
+    APP_ID: "123e4567-e89b-12d3-a456-426614174000"
