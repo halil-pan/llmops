@@ -3,7 +3,9 @@ import uuid
 
 from flask import request
 from injector import inject
-from openai import OpenAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain_openai import ChatOpenAI
 from dataclasses import dataclass
 
 from internal.exception import FailException
@@ -39,26 +41,20 @@ class AppHandler:
         if not req.validate():
             return validate_error_json(req.errors)
 
-        # 提取接口获取输入
-        query = request.json.get("query")
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "你是一个聊天机器人，请根据用户提问进行回复"),
+            HumanMessagePromptTemplate.from_template("{query}")
+        ])
 
-        # 构建 openai 客户端发起请求
-        client = OpenAI(
+        llm = ChatOpenAI(
+            model="kimi-k2-0905-preview",
             api_key=os.getenv("OPEN_API_KEY"),
             base_url=os.getenv("OPEN_API_BASE"),
         )
 
-        # 将相应传给前端
-        completion = client.chat.completions.create(
-            model="kimi-k2-turbo-preview",
-            messages=[
-                {"role": "system", "content": "你是 Kimi，由 Moonshot AI 提供的人工智能助手，你更擅长中文和英文的对话。你会为用户提供安全，有帮助，准确的回答。同时，你会拒绝一切涉及恐怖主义，种族歧视，黄色暴力等问题的回答。Moonshot AI 为专有名词，不可翻译成其他语言。"},
-                {"role": "user","content": query}
-            ],
-            temperature=0.6,
-        )
+        parser = StrOutputParser()
 
-        content = completion.choices[0].message.content
+        content = parser.invoke(llm.invoke(prompt.invoke({"query": req.query.data})))
 
         return success_json({"content": content})
 
